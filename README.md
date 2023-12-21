@@ -10,12 +10,12 @@ You have two options to get started:
 1. **Download the App and Start Using It:**
    Simply download the app and start using it right away.
    The room creation feature is not added yet,but you can use the exsisting rooms.
-   latest version:Room v0.1.0(https://github.com/HARISH6000/Room/releases/tag/v0.1.0)
+   -latest version:[Room v0.1.0](https://github.com/HARISH6000/Room/releases/tag/v0.1.0)
 
 2. **Clone this Repository and Set Up Your Own Firebase Project:**
-   Clone this repository and create a new Firebase project. 
-   Integrate it with the cloned Flutter project to gain more control over the app.
-   By using this method you can manually create more rooms in the backend.
+   -Clone this repository and create a new Firebase project. 
+   -Integrate it with the cloned Flutter project to gain more control over the app.
+   -By using this method you can manually create more rooms in the backend.
 
     Follow these steps to get the app up and running on your local machine.
 
