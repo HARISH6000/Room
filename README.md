@@ -1,6 +1,7 @@
-# room
+# Room
 
-A new Flutter project.
+Room is a group chat application built with Flutter and Firebase, allowing users to enter different rooms and engage in conversations.
+
 
 ## Getting Started
 
