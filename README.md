@@ -1,17 +1,58 @@
 # Room
 
-Room is a group chat application built with Flutter and Firebase, allowing users to enter different rooms and engage in conversations.
+Room is a group chat application built with Flutter and Firebase, allowing users to enterg different rooms and engage in conversations.
 
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+You have two options to get started:
 
-A few resources to get you started if this is your first Flutter project:
+1. **Download the App and Start Using It:**
+   Simply download the app and start using it right away.
+   The room creation feature is not added yet,but you can use the exsisting rooms.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+2. **Clone this Repository and Set Up Your Own Firebase Project:**
+   Clone this repository and create a new Firebase project. 
+   Integrate it with the cloned Flutter project to gain more control over the app.
+   By using this method you can manually create more rooms in the backend.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+    Follow these steps to get the app up and running on your local machine.
+
+    ### Prerequisites
+
+    - Flutter SDK: [Installation Guide](https://flutter.dev/docs/get-started/install)
+    - Firebase Project: [Create a Firebase Project](https://console.firebase.google.com/)
+
+    ### Configuration
+
+    1. Clone the repository:
+
+        ```bash
+        git clone https://github.com/your-username/room-app.git
+        ```
+
+    2. Navigate to the project directory:
+
+        ```bash
+        cd room-app
+        ```
+
+    3. Install dependencies:
+
+        ```bash
+        flutter pub get
+        ```
+
+    4. Configure Firebase:
+    
+        - Create a Firebase project.
+        - Add a new Android/iOS app to your Firebase project.
+        - Download the `google-services.json` (Android) or `GoogleService-Info.plist` (iOS) file.
+        - Place the downloaded file in the respective platform folder (`android/app` for Android, `ios/` for iOS).
+
+    5. Run the app:
+
+        ```bash
+        flutter run
+        ```
+
