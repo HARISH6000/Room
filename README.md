@@ -28,13 +28,13 @@ You have two options to get started:
     1. Clone the repository:
 
         ```bash
-        git clone https://github.com/your-username/room-app.git
+        git clone https://github.com/HARISH6000/Room
         ```
 
     2. Navigate to the project directory:
 
         ```bash
-        cd room-app
+        cd Room
         ```
 
     3. Install dependencies:
@@ -49,6 +49,10 @@ You have two options to get started:
         - Add a new Android/iOS app to your Firebase project.
         - Download the `google-services.json` (Android) or `GoogleService-Info.plist` (iOS) file.
         - Place the downloaded file in the respective platform folder (`android/app` for Android, `ios/` for iOS).
+        -  ```bash
+        flutterfire configure
+        ```
+        - use the above command to configure your project.
 
     5. Run the app:
 
