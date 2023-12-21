@@ -57,6 +57,9 @@ class _HomePageState extends State<HomePage> {
                 width: 300,
                 height: 200,
                 child: TextField(
+                  onTapOutside: (PointerDownEvent e) {
+                    FocusScope.of(context).unfocus();
+                  },
                   onSubmitted: (str) {
                     setState(() {
                       isLoading = true;

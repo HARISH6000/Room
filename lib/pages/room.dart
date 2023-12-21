@@ -1,13 +1,10 @@
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:room/models/message_model.dart';
 import 'package:room/pages/roominfo.dart';
 import 'package:room/services/firestore_services.dart';
-import 'package:timestamp_to_string/timestamp_to_string.dart';
 
 class RoomPage extends StatefulWidget {
   final dynamic rid;
@@ -23,10 +20,10 @@ class RoomPage extends StatefulWidget {
 class _RoomPageState extends State<RoomPage> {
   String uid = "user" + Random().nextInt(1000).toString();
   bool isLoading = false;
+  TextEditingController tf = TextEditingController();
   @override
   Widget build(BuildContext context) {
     FirebaseFirestoreServices fs = FirebaseFirestoreServices(rid: widget.rid);
-    TextEditingController tf = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -137,13 +134,13 @@ class _RoomPageState extends State<RoomPage> {
                   setState(() {
                     isLoading = true;
                   });
+                  tf.clear();
                   if (value.startsWith("userName:")) {
                     uid = value.substring(9);
                   } else {
                     await fs.addMsg(value, uid);
                   }
                   //await Future.delayed(Duration(seconds: 3));
-                  tf.clear();
                   setState(() {
                     isLoading = false;
                   });

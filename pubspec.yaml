@@ -38,7 +38,7 @@ dependencies:
   firebase_core: ^2.24.2
   cloud_firestore: ^4.13.6
   firebase_auth: ^4.15.3
-  timestamp_to_string: ^0.0.1
+  flutter_keyboard_visibility: ^6.0.0
 
 dev_dependencies:
   flutter_test:
