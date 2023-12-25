@@ -170,13 +170,13 @@ class _RoomPageState extends State<RoomPage> {
                         isLoading = true;
                       });
                       String msg = tf.text;
-                      if (tf.text.startsWith("userName:")) {
-                        uid = tf.text.substring(9);
+                      tf.clear();
+                      if (msg.startsWith("userName:")) {
+                        uid = msg.substring(9);
                       } else {
                         await fs.addMsg(msg, uid);
                       }
                       //await Future.delayed(Duration(seconds: 3));
-                      tf.clear();
                       setState(() {
                         isLoading = false;
                       });

@@ -70,20 +70,16 @@ class _HomePageState extends State<HomePage> {
                       }
                       roomno = str;
                     });
-                    db
-                        .collection("Room")
-                        .where("rid", isEqualTo: str)
-                        .get()
-                        .then((querySnapshot) {
+                    db.collection("Room").doc(str).get().then(
+                        (DocumentSnapshot ds) {
                       print("query successful");
-                      print(querySnapshot.docs);
-                      if (querySnapshot.docs.isEmpty) {
+                      print(ds);
+                      if (!ds.exists) {
                         setState(() {
                           roomno += ".\nThis room does not exist.";
                           isLoading = false;
                         });
                       } else {
-                        var data = querySnapshot.docs.first;
                         setState(() {
                           isLoading = false;
                           Navigator.push(
@@ -91,8 +87,8 @@ class _HomePageState extends State<HomePage> {
                               MaterialPageRoute(
                                   builder: (context) => RoomPage(
                                         rid: str,
-                                        rname: data["rname"],
-                                        desc: data["desc"],
+                                        rname: ds["rname"],
+                                        desc: ds["desc"],
                                       )));
                         });
                       }

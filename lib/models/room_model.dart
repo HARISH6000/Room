@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Room {
-  final String? rid;
-  final String? rname;
-  final String? desc;
+  final String rid;
+  final String rname;
+  final String desc;
 
   const Room({
-    this.rid,
-    this.rname,
-    this.desc,
+    required this.rid,
+    required this.rname,
+    required this.desc,
   });
 
   factory Room.fromFirestore(
@@ -24,8 +24,8 @@ class Room {
   }
   Map<String, dynamic> toFirestore() {
     return {
-      if (rid != null) "rid": rid,
-      if (rname != null) "rname": rname,
+      "rid": rid,
+      "rname": rname,
       "desc": desc,
     };
   }
