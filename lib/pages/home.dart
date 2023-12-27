@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:room/pages/instruction.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:room/pages/room.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,6 +17,71 @@ class _HomePageState extends State<HomePage> {
   FirebaseFirestore db = FirebaseFirestore.instance;
   String roomno = '', temp = '';
   final _txt_controller = TextEditingController();
+
+  Future<AlertDialog?> _vercheck(context) async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String version = packageInfo.version;
+    DocumentSnapshot ds = await db.collection("Info").doc('version').get();
+    print(version + "----" + ds['verNo'].split(".")[2]);
+    if ((int.parse(ds['verNo'].split(".")[0]) >
+            int.parse(version.split(".")[0])) ||
+        ((int.parse(ds['verNo'].split(".")[0]) ==
+                int.parse(version.split(".")[0])) &&
+            (int.parse(ds['verNo'].split(".")[1]) >
+                int.parse(version.split(".")[1]))) ||
+        ((int.parse(ds['verNo'].split(".")[0]) ==
+                int.parse(version.split(".")[0])) &&
+            (int.parse(ds['verNo'].split(".")[1]) ==
+                int.parse(version.split(".")[1])) &&
+            (int.parse(ds['verNo'].split(".")[2]) >
+                int.parse(version.split(".")[2])))) {
+      _showAlertDialog(context, ds);
+    }
+    return null;
+  }
+
+  void _showAlertDialog(BuildContext context, DocumentSnapshot ds) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(ds["title"]),
+          content: Text(ds["content"]),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                Uri _url = Uri.parse(ds['download']);
+                if (await launchUrl(_url)) {
+                  await launchUrl(_url);
+                } else {
+                  throw 'could not open the url';
+                }
+              },
+              child: const Text("Download"),
+            ),
+            TextButton(
+              onPressed: () async {
+                Uri _url = Uri.parse(ds['learnMore']);
+                if (await launchUrl(_url)) {
+                  await launchUrl(_url);
+                } else {
+                  throw 'could not open the url';
+                }
+              },
+              child: const Text("Learn more"),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _vercheck(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
