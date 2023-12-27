@@ -53,7 +53,8 @@ class _HomePageState extends State<HomePage> {
               onPressed: () async {
                 Uri _url = Uri.parse(ds['download']);
                 if (await launchUrl(_url)) {
-                  await launchUrl(_url);
+                  print("successful");
+                  Navigator.of(context).pop();
                 } else {
                   throw 'could not open the url';
                 }
@@ -64,7 +65,8 @@ class _HomePageState extends State<HomePage> {
               onPressed: () async {
                 Uri _url = Uri.parse(ds['learnMore']);
                 if (await launchUrl(_url)) {
-                  await launchUrl(_url);
+                  print("successful");
+                  Navigator.of(context).pop();
                 } else {
                   throw 'could not open the url';
                 }
