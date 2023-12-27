@@ -46,7 +46,8 @@ class _HomePageState extends State<HomePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(ds["title"]),
-          content: Text(ds["content"]),
+          content: Text(ds["content"] +
+              "\n\nNote: if you have already downloaded the latest version, install it."),
           actions: [
             TextButton(
               onPressed: () async {
