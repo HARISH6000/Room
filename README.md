@@ -11,7 +11,7 @@ You have two options to get started:
    Simply download the app and start using it right away.
    The room creation feature is not added yet,but you can use the exsisting rooms.
    
-   latest version:[Room](https://github.com/HARISH6000/Room/releases/tag/v0.1.1)
+   latest version:[Room](https://github.com/HARISH6000/Room/releases/tag/v0.1.2)
 
 2. **Clone this Repository and Set Up Your Own Firebase Project:**
    Clone this repository and create a new Firebase project. 
