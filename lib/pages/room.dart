@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:room/models/message_model.dart';
+import 'package:room/models/user_model.dart';
 import 'package:room/pages/roominfo.dart';
 import 'package:room/services/firestore_services.dart';
 
@@ -10,19 +11,25 @@ class RoomPage extends StatefulWidget {
   final dynamic rid;
   final dynamic rname;
   final dynamic desc;
+  final dynamic us;
   const RoomPage(
-      {super.key, String? this.rid, String? this.rname, String? this.desc});
+      {super.key,
+      String? this.rid,
+      String? this.rname,
+      String? this.desc,
+      DocumentSnapshot? this.us});
 
   @override
   State<RoomPage> createState() => _RoomPageState();
 }
 
 class _RoomPageState extends State<RoomPage> {
-  String uid = "user" + Random().nextInt(1000).toString();
+  //String uid =  "user" + Random().nextInt(1000).toString();
   bool isLoading = false;
   TextEditingController tf = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    String uid = widget.us['uname'];
     FirebaseFirestoreServices fs = FirebaseFirestoreServices(rid: widget.rid);
     return Scaffold(
       appBar: AppBar(
@@ -174,7 +181,7 @@ class _RoomPageState extends State<RoomPage> {
                       if (msg.startsWith("userName:")) {
                         uid = msg.substring(9);
                       } else {
-                        await fs.addMsg(msg, uid);
+                        await fs.addMsg(msg, widget.us['uname']);
                       }
                       //await Future.delayed(Duration(seconds: 3));
                       setState(() {

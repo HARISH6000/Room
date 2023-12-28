@@ -32,64 +32,53 @@ class _SigninPageState extends State<SigninPage> {
         backgroundColor: Colors.black,
         elevation: 0.0,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-            child: TextFormField(
-              controller: userIdController,
-              style: const TextStyle(
-                color: Colors.white54,
-              ),
-              decoration: InputDecoration(
-                label: const Text(
-                  'User Id',
+      body: Flexible(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 300,
+                  height: 200,
+                  child: TextFormField(
+                    controller: userIdController,
+                    style: const TextStyle(
+                      color: Colors.white54,
+                    ),
+                    decoration: InputDecoration(
+                      label: const Text(
+                        'User Name',
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                    ),
+                    onTapOutside: (value) async {
+                      FocusScope.of(context).unfocus();
+                    },
+                    onEditingComplete: () {
+                      try {
+                        FocusScope.of(context).unfocus();
+                        if (userIdController.text.isNotEmpty) {
+                          _auth.signInAnonymously().then((value) {
+                            print(value);
+                            if (value.user?.uid != null) {
+                              fs.addUsr(value.user?.uid, userIdController.text);
+                            }
+                          });
+                        }
+                      } on Exception {
+                        // TODO
+                      }
+                    },
+                  ),
                 ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-              ),
+              ],
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-            child: TextFormField(
-              obscureText: true,
-              controller: pswdController,
-              style: const TextStyle(
-                color: Colors.white54,
-              ),
-              decoration: InputDecoration(
-                label: const Text(
-                  'Password',
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-              ),
-              onFieldSubmitted: (value) {
-                print(value);
-                try {
-                  _auth.signInAnonymously().then((value) {
-                    print(value);
-                    if (value.user?.uid != null) {
-                      fs.addUsr(value.user?.uid, userIdController.text);
-                      setState(() {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomePage()));
-                      });
-                    }
-                  });
-                } on Exception {
-                  // TODO
-                }
-              },
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
       backgroundColor: Colors.black,
     );
