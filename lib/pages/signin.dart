@@ -32,53 +32,51 @@ class _SigninPageState extends State<SigninPage> {
         backgroundColor: Colors.black,
         elevation: 0.0,
       ),
-      body: Flexible(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 300,
-                  height: 200,
-                  child: TextFormField(
-                    controller: userIdController,
-                    style: const TextStyle(
-                      color: Colors.white54,
-                    ),
-                    decoration: InputDecoration(
-                      label: const Text(
-                        'User Name',
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                    ),
-                    onTapOutside: (value) async {
-                      FocusScope.of(context).unfocus();
-                    },
-                    onEditingComplete: () {
-                      try {
-                        FocusScope.of(context).unfocus();
-                        if (userIdController.text.isNotEmpty) {
-                          _auth.signInAnonymously().then((value) {
-                            print(value);
-                            if (value.user?.uid != null) {
-                              fs.addUsr(value.user?.uid, userIdController.text);
-                            }
-                          });
-                        }
-                      } on Exception {
-                        // TODO
-                      }
-                    },
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 300,
+                height: 200,
+                child: TextFormField(
+                  controller: userIdController,
+                  style: const TextStyle(
+                    color: Colors.white54,
                   ),
+                  decoration: InputDecoration(
+                    label: const Text(
+                      'User Name',
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                  ),
+                  onTapOutside: (value) async {
+                    FocusScope.of(context).unfocus();
+                  },
+                  onEditingComplete: () {
+                    try {
+                      FocusScope.of(context).unfocus();
+                      if (userIdController.text.isNotEmpty) {
+                        _auth.signInAnonymously().then((value) {
+                          print(value);
+                          if (value.user?.uid != null) {
+                            fs.addUsr(value.user?.uid, userIdController.text);
+                          }
+                        });
+                      }
+                    } on Exception {
+                      // TODO
+                    }
+                  },
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
       backgroundColor: Colors.black,
     );
