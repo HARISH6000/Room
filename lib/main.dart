@@ -23,7 +23,31 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    final ColorScheme colorScheme = ColorScheme.fromSeed(
+      brightness: MediaQuery.platformBrightnessOf(context),
+      seedColor: Colors.deepPurple,
+      background: Colors.black,
+      secondary: Colors.white54,
+      tertiary: Colors.white,
+    );
+    final ColorScheme colorScheme1 = ColorScheme.fromSeed(
+      brightness: MediaQuery.platformBrightnessOf(context),
+      seedColor: Colors.blueAccent.shade400,
+      background: Colors.black,
+      secondary: Colors.white54,
+      tertiary: Colors.white,
+    );
+    final ColorScheme colorScheme2 = ColorScheme.fromSeed(
+      brightness: MediaQuery.platformBrightnessOf(context),
+      seedColor: Color.fromARGB(255, 145, 223, 148),
+      background: Colors.black,
+      secondary: Colors.white54,
+      tertiary: Colors.white,
+    );
+    return MaterialApp(
+      theme: ThemeData(
+        colorScheme: colorScheme,
+      ),
       debugShowCheckedModeBanner: false,
       home: HomePage(),
     );

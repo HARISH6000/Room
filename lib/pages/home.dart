@@ -116,6 +116,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final ColorScheme colorScheme = theme.colorScheme;
     return isSignedIn
         ? Scaffold(
             appBar: AppBar(
@@ -154,10 +156,10 @@ class _HomePageState extends State<HomePage> {
                   icon: const Icon(Icons.logout_outlined),
                 ),
               ],
-              backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+              backgroundColor: colorScheme.background,
               elevation: 0.0,
             ),
-            backgroundColor: Colors.black,
+            backgroundColor: colorScheme.background,
             body: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -214,17 +216,18 @@ class _HomePageState extends State<HomePage> {
                           fontFamily: 'Radiotechnika',
                           color: Colors.white,
                         ),
-                        cursorColor: const Color.fromARGB(159, 104, 58, 183),
+                        cursorColor: colorScheme.primary.withAlpha(
+                            159), //const Color.fromARGB(159, 104, 58, 183),
                         decoration: InputDecoration(
                           isCollapsed: false,
                           isDense: false,
-                          fillColor: Colors.black,
+                          fillColor: colorScheme.background,
                           filled: true,
                           hintStyle: const TextStyle(color: Colors.white54),
                           hintText: 'Room',
                           border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.white, width: 1),
+                              borderSide: BorderSide(
+                                  color: colorScheme.tertiary, width: 1),
                               borderRadius: BorderRadius.circular(100)),
                           errorBorder: OutlineInputBorder(
                             borderSide:
@@ -232,9 +235,8 @@ class _HomePageState extends State<HomePage> {
                             borderRadius: BorderRadius.circular(100),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Color.fromARGB(255, 104, 58, 183),
-                                width: 1),
+                            borderSide: BorderSide(
+                                color: colorScheme.primary, width: 1),
                             borderRadius: BorderRadius.circular(100),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
@@ -256,13 +258,13 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.all(8.0),
                       child: isLoading
                           ? CircularProgressIndicator(
-                              color: Colors.deepPurple,
+                              color: colorScheme.primary,
                             )
                           : Container(
                               child: Text(
                                 temp + roomno,
-                                style: const TextStyle(
-                                  color: Colors.deepPurple,
+                                style: TextStyle(
+                                  color: colorScheme.primary,
                                 ),
                               ),
                             ),

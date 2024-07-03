@@ -29,18 +29,21 @@ class _RoomPageState extends State<RoomPage> {
   TextEditingController tf = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final ColorScheme colorScheme = theme.colorScheme;
     String uid = widget.us['uname'];
     FirebaseFirestoreServices fs = FirebaseFirestoreServices(rid: widget.rid);
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: colorScheme.secondary.withOpacity(0.1)),
         centerTitle: true,
         title: Text(
           widget.rname + "-" + widget.rid,
-          style: const TextStyle(
-            color: Colors.white54,
+          style: TextStyle(
+            color: colorScheme.primary.withOpacity(0.8),
             fontFamily: "Radiotechnika",
             fontWeight: FontWeight.bold,
-            fontSize: 14,
+            fontSize: 16,
           ),
         ),
         actions: [
@@ -59,13 +62,17 @@ class _RoomPageState extends State<RoomPage> {
                   );
                 });
               },
-              icon: const Icon(Icons.info_outline))
+              icon: Icon(
+                Icons.info_outline,
+                color: colorScheme.secondary.withOpacity(0.2),
+              ))
         ],
-        shadowColor: const Color.fromARGB(41, 255, 255, 255),
-        backgroundColor: Colors.black,
+        shadowColor: colorScheme.primary
+            .withOpacity(0.5), //const Color.fromARGB(41, 255, 255, 255),
+        backgroundColor: colorScheme.background,
         elevation: 2.0,
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: colorScheme.background,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -89,20 +96,20 @@ class _RoomPageState extends State<RoomPage> {
                     ),
                   );
                 } else if (snapshot.data.docs.isEmpty) {
-                  return const SizedBox(
+                  return SizedBox(
                     width: 100,
                     height: 100,
                     child: Text(
                       "Nothing here",
                       style: TextStyle(
-                        color: Colors.white54,
+                        color: colorScheme.secondary,
                       ),
                     ),
                   );
                 } else {
                   return Flexible(
                     child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.8,
+                      width: MediaQuery.of(context).size.width * 0.9,
                       height: MediaQuery.of(context).size.height * 1.0,
                       child: ListView.builder(
                         dragStartBehavior: DragStartBehavior.down,
@@ -110,11 +117,60 @@ class _RoomPageState extends State<RoomPage> {
                         itemCount: snapshot.data.docs.length,
                         itemBuilder: (context, index) {
                           DocumentSnapshot ds = snapshot.data.docs[index];
-                          return ListTile(
-                            title: Text(
-                              ds["uid"] + ": " + ds["msg"],
-                              style: const TextStyle(
-                                color: Colors.white54,
+                          return Align(
+                            alignment: Alignment.centerLeft,
+                            child: Card(
+                              elevation: 0.2,
+                              margin: EdgeInsets.symmetric(
+                                vertical:
+                                    MediaQuery.of(context).size.height * 0.01,
+                                horizontal:
+                                    MediaQuery.of(context).size.width * 0.005,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    color: colorScheme.primary,
+                                    width: 0.5,
+                                  ),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              color: colorScheme.primary.withAlpha(31),
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                  10.0,
+                                  6.0,
+                                  20.0,
+                                  10.0,
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      ds["uid"],
+                                      style: TextStyle(
+                                        color: colorScheme.primary,
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 4.0,
+                                    ),
+                                    Text(
+                                      " " *
+                                              (ds["uid"].length < 3
+                                                  ? ds["uid"].length
+                                                  : 3) +
+                                          ds["msg"],
+                                      style: TextStyle(
+                                        color: colorScheme.tertiary,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           );
@@ -125,15 +181,15 @@ class _RoomPageState extends State<RoomPage> {
                 }
               }),
           Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 20,
-              horizontal: 20,
+            padding: EdgeInsets.symmetric(
+              vertical: MediaQuery.of(context).size.height * 0.01,
+              horizontal: MediaQuery.of(context).size.width * 0.05,
             ),
             child: TextField(
               autocorrect: false,
               controller: tf,
-              style: const TextStyle(
-                color: Colors.white54,
+              style: TextStyle(
+                color: colorScheme.secondary,
                 fontFamily: 'SpecialGothic',
               ),
               onSubmitted: (value) async {
@@ -159,11 +215,11 @@ class _RoomPageState extends State<RoomPage> {
               decoration: InputDecoration(
                 suffixIcon: IconButton(
                   icon: isLoading
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 25,
                           height: 25,
                           child: CircularProgressIndicator(
-                            color: Colors.deepPurple,
+                            color: colorScheme.primary,
                             strokeWidth: 2,
                           ),
                         )
@@ -191,8 +247,8 @@ class _RoomPageState extends State<RoomPage> {
                   },
                 ),
                 border: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Colors.white54,
+                  borderSide: BorderSide(
+                    color: colorScheme.secondary,
                     width: 1.0,
                     style: BorderStyle.solid,
                   ),

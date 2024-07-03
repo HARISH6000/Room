@@ -16,6 +16,8 @@ class _SigninPageState extends State<SigninPage> {
   final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final ColorScheme colorScheme = theme.colorScheme;
     FirebaseFirestoreServices fs = FirebaseFirestoreServices();
     return Scaffold(
       appBar: AppBar(
@@ -29,7 +31,7 @@ class _SigninPageState extends State<SigninPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: colorScheme.background,
         elevation: 0.0,
       ),
       body: Row(
@@ -78,7 +80,7 @@ class _SigninPageState extends State<SigninPage> {
           ),
         ],
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: colorScheme.background,
     );
   }
 }

@@ -18,30 +18,32 @@ class _loginPageState extends State<loginPage> {
   final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final ColorScheme colorScheme = theme.colorScheme;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Room',
           style: TextStyle(
-            color: Colors.grey,
+            color: colorScheme.secondary,
             fontFamily: 'Radiotechnika',
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: colorScheme.background,
         elevation: 0.0,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Padding(
-            padding: EdgeInsets.fromLTRB(50, 0, 50, 20),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(50, 0, 50, 20),
             child: Text(
               'Login',
               style: TextStyle(
-                color: Colors.deepPurple,
+                color: colorScheme.primary,
                 fontSize: 18,
               ),
             ),
