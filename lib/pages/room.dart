@@ -32,6 +32,7 @@ class _RoomPageState extends State<RoomPage> {
     final ThemeData theme = Theme.of(context);
     final ColorScheme colorScheme = theme.colorScheme;
     String uid = widget.us['uname'];
+    String id = widget.us.id;
     FirebaseFirestoreServices fs = FirebaseFirestoreServices(rid: widget.rid);
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +41,7 @@ class _RoomPageState extends State<RoomPage> {
         title: Text(
           widget.rname + "-" + widget.rid,
           style: TextStyle(
-            color: colorScheme.primary.withOpacity(0.8),
+            color: colorScheme.secondary,
             fontFamily: "Radiotechnika",
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -67,9 +68,8 @@ class _RoomPageState extends State<RoomPage> {
                 color: colorScheme.secondary.withOpacity(0.2),
               ))
         ],
-        shadowColor: colorScheme.primary
-            .withOpacity(0.5), //const Color.fromARGB(41, 255, 255, 255),
-        backgroundColor: colorScheme.background,
+        //shadowColor: colorScheme.primary.withOpacity(0.1), //const Color.fromARGB(41, 255, 255, 255),
+        backgroundColor: Colors.black,
         elevation: 2.0,
       ),
       backgroundColor: colorScheme.background,
@@ -117,8 +117,12 @@ class _RoomPageState extends State<RoomPage> {
                         itemCount: snapshot.data.docs.length,
                         itemBuilder: (context, index) {
                           DocumentSnapshot ds = snapshot.data.docs[index];
+                          Map<String, dynamic> data =
+                              ds.data() as Map<String, dynamic>;
                           return Align(
-                            alignment: Alignment.centerLeft,
+                            alignment: data.containsKey('id') && id == ds["id"]
+                                ? Alignment.centerRight
+                                : Alignment.centerLeft,
                             child: Card(
                               elevation: 0.2,
                               margin: EdgeInsets.symmetric(
@@ -201,7 +205,11 @@ class _RoomPageState extends State<RoomPage> {
                   if (value.startsWith("userName:")) {
                     uid = value.substring(9);
                   } else {
-                    await fs.addMsg(value, uid);
+                    await fs.addMsg(
+                      value,
+                      uid,
+                      id,
+                    );
                   }
                   //await Future.delayed(Duration(seconds: 3));
                   setState(() {
@@ -237,7 +245,11 @@ class _RoomPageState extends State<RoomPage> {
                       if (msg.startsWith("userName:")) {
                         uid = msg.substring(9);
                       } else {
-                        await fs.addMsg(msg, widget.us['uname']);
+                        await fs.addMsg(
+                          msg,
+                          widget.us['uname'],
+                          id,
+                        );
                       }
                       //await Future.delayed(Duration(seconds: 3));
                       setState(() {

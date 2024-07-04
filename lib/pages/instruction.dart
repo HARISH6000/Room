@@ -6,32 +6,34 @@ class Instruction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final ColorScheme colorScheme = theme.colorScheme;
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: colorScheme.background,
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Room',
           style: TextStyle(
-            color: Colors.grey,
+            color: colorScheme.secondary,
             fontFamily: 'Radiotechnika',
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: colorScheme.background,
         elevation: 0.0,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsets.fromLTRB(100, 0, 75, 0),
             child: Text(
               'For now, only admins are allowed to create room.',
               style: TextStyle(
-                color: Colors.white54,
+                color: colorScheme.tertiary,
               ),
             ),
           ),

@@ -39,10 +39,10 @@ class MyApp extends StatelessWidget {
     );
     final ColorScheme colorScheme2 = ColorScheme.fromSeed(
       brightness: MediaQuery.platformBrightnessOf(context),
-      seedColor: Color.fromARGB(255, 145, 223, 148),
-      background: Colors.black,
-      secondary: Colors.white54,
-      tertiary: Colors.white,
+      seedColor: Colors.deepPurple,
+      background: Colors.white,
+      secondary: Colors.grey,
+      tertiary: Colors.black,
     );
     return MaterialApp(
       theme: ThemeData(

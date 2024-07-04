@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:room/pages/home.dart';
@@ -45,8 +46,8 @@ class _SigninPageState extends State<SigninPage> {
                 height: 200,
                 child: TextFormField(
                   controller: userIdController,
-                  style: const TextStyle(
-                    color: Colors.white54,
+                  style: TextStyle(
+                    color: colorScheme.secondary,
                   ),
                   decoration: InputDecoration(
                     label: const Text(
@@ -66,7 +67,11 @@ class _SigninPageState extends State<SigninPage> {
                         _auth.signInAnonymously().then((value) {
                           print(value);
                           if (value.user?.uid != null) {
-                            fs.addUsr(value.user?.uid, userIdController.text);
+                            fs.addUsr(
+                              value.user?.uid,
+                              userIdController.text,
+                              true,
+                            );
                           }
                         });
                       }

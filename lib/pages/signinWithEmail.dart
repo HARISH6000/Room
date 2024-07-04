@@ -3,20 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:room/pages/home.dart';
 import 'package:room/services/firestore_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:room/pages/signinWithEmail.dart';
 
 // ignore: camel_case_types
-class loginPage extends StatefulWidget {
-  const loginPage({super.key});
+class signinWithEmailPage extends StatefulWidget {
+  const signinWithEmailPage({super.key});
 
   @override
-  State<loginPage> createState() => _loginPageState();
+  State<signinWithEmailPage> createState() => _signinWithEmailPageState();
 }
 
 // ignore: camel_case_types
-class _loginPageState extends State<loginPage> {
+class _signinWithEmailPageState extends State<signinWithEmailPage> {
   final userIdController = TextEditingController();
+  final userNameController = TextEditingController();
   final pswdController = TextEditingController();
+  final repswdController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
   @override
@@ -24,6 +25,7 @@ class _loginPageState extends State<loginPage> {
     final ThemeData theme = Theme.of(context);
     final ColorScheme colorScheme = theme.colorScheme;
     FirebaseFirestoreServices fs = FirebaseFirestoreServices();
+    String note = "room";
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -38,19 +40,6 @@ class _loginPageState extends State<loginPage> {
         ),
         backgroundColor: colorScheme.background,
         elevation: 0.0,
-        actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const signinWithEmailPage()));
-              });
-            },
-            icon: const Icon(Icons.add),
-          ),
-        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -58,7 +47,7 @@ class _loginPageState extends State<loginPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(50, 0, 50, 20),
             child: Text(
-              'Login',
+              'Signin',
               style: TextStyle(
                 color: colorScheme.primary,
                 fontSize: 18,
@@ -74,6 +63,23 @@ class _loginPageState extends State<loginPage> {
               ),
               decoration: InputDecoration(
                 label: const Text(
+                  'Email',
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(50.0, 0, 50.0, 20),
+            child: TextFormField(
+              controller: userNameController,
+              style: TextStyle(
+                color: colorScheme.secondary,
+              ),
+              decoration: InputDecoration(
+                label: const Text(
                   'User name',
                 ),
                 border: OutlineInputBorder(
@@ -83,7 +89,7 @@ class _loginPageState extends State<loginPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(50.0, 0, 50.0, 150),
+            padding: const EdgeInsets.fromLTRB(50.0, 0, 50.0, 20),
             child: TextFormField(
               obscureText: true,
               controller: pswdController,
@@ -98,9 +104,28 @@ class _loginPageState extends State<loginPage> {
                   borderRadius: BorderRadius.circular(50),
                 ),
               ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(50.0, 0, 50.0, 150),
+            child: TextFormField(
+              obscureText: true,
+              controller: repswdController,
+              style: TextStyle(
+                color: colorScheme.secondary,
+              ),
+              decoration: InputDecoration(
+                label: const Text(
+                  'Password',
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+              ),
               onFieldSubmitted: (value) {
                 print("---------------------------------------------\n\n\n");
                 print(userIdController.text);
+                print(pswdController.text);
                 print(value);
                 print(
                     "\n\n\n-------------------------------------------------");
@@ -122,21 +147,34 @@ class _loginPageState extends State<loginPage> {
                     }
                   });
                 }
-                try {
-                  _auth
-                      .signInWithEmailAndPassword(
-                          email: userIdController.text, password: value)
-                      .then((value) {
-                    setState(() {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomePage()));
+                if (pswdController.text == value) {
+                  try {
+                    _auth
+                        .createUserWithEmailAndPassword(
+                            email: userIdController.text, password: value)
+                        .then((value) {
+                      if (value.user?.uid != null) {
+                        fs.addUsr(
+                          value.user?.uid,
+                          userNameController.text,
+                          false,
+                        );
+                      }
+                      setState(() {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomePage()));
+                      });
                     });
+                  } on Exception {
+                    print("couldn't, sign in");
+                    // TODO
+                  }
+                } else {
+                  setState(() {
+                    note = "Password mismatch";
                   });
-                } on Exception {
-                  print("couldn't, sign in");
-                  // TODO
                 }
               },
             ),
@@ -147,6 +185,15 @@ class _loginPageState extends State<loginPage> {
           //     image: AssetImage('assets/onizuka.png'),
           //   ),
           // ),
+          Padding(
+            padding: EdgeInsets.all(1),
+            child: Text(
+              note,
+              style: TextStyle(
+                color: colorScheme.primary,
+              ),
+            ),
+          )
         ],
       ),
       backgroundColor: colorScheme.background,

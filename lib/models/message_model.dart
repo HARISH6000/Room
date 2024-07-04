@@ -4,10 +4,12 @@ class Message {
   final String msg;
   final Timestamp ts;
   final String uid;
+  final String id;
   const Message({
     required this.msg,
     required this.ts,
     required this.uid,
+    required this.id,
   });
 
   factory Message.fromFirestore(
@@ -19,6 +21,7 @@ class Message {
       msg: data?['msg'],
       ts: data?['ts'],
       uid: data?['uid'],
+      id: data?['id'],
     );
   }
 
@@ -27,6 +30,7 @@ class Message {
       "msg": msg,
       "ts": ts,
       "uid": uid,
+      "id": id,
     };
   }
 }

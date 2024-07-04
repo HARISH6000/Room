@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool isLoading = false;
   FirebaseFirestore db = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   String roomno = '', temp = '';
   final _txt_controller = TextEditingController();
   bool isSignedIn = true;
@@ -148,8 +149,21 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () async {
                     User? usr = FirebaseAuth.instance.currentUser;
                     if (usr != null) {
-                      db.collection("User").doc(usr.uid).delete();
-                      await usr.delete();
+                      db
+                          .collection("User")
+                          .doc(usr.uid)
+                          .get()
+                          .then((DocumentSnapshot ds) async {
+                        if (ds.exists) {
+                          if (ds["isAnon"] == false) {
+                            _auth.signOut();
+                          } else {
+                            _auth.currentUser!.delete();
+                            db.collection("User").doc(usr.uid).delete();
+                            await usr.delete();
+                          }
+                        }
+                      });
                       print("----------------signed out-------------------");
                     }
                   },
